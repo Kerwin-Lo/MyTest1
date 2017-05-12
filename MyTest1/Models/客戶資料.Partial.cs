@@ -2,8 +2,11 @@ namespace MyTest1.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Linq;
+    using ValidationAttributes;
+
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
     {
@@ -31,7 +34,8 @@ namespace MyTest1.Models
         
         [StringLength(100, ErrorMessage="欄位長度不得大於 100 個字元")]
         public string 地址 { get; set; }
-        
+
+        [Email格式驗證(ErrorMessage = "Email格式錯誤")]
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         public string Email { get; set; }
     

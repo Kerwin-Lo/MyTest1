@@ -28,10 +28,12 @@ namespace MyTest1.Models
         public string 姓名 { get; set; }
 
         [客戶聯絡人Email不可重複(ErrorMessage = "同一客戶的客戶聯絡人Email不可重複")]
+        [Email格式驗證(ErrorMessage = "Email格式錯誤")]
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]
         public string Email { get; set; }
-        
+
+        [手機格式驗證(ErrorMessage = "手機格式錯誤(0911-111111)")]
         [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
         [Required]
         public string 手機 { get; set; }
