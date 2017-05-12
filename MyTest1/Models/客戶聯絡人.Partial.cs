@@ -5,11 +5,43 @@ namespace MyTest1.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using ValidationAttributes;
 
     [MetadataType(typeof(客戶聯絡人MetaData))]
-    public partial class 客戶聯絡人
+    public partial class 客戶聯絡人 : IValidatableObject
     {
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            using (var db = new 客戶資料Entities())
+            {
+                var all = db.客戶聯絡人.AsQueryable();
+
+                int intCount=0;
+                if (this.Id == 0)
+                {
+                    var result = from c in all
+                             where c.Email.ToLower() == this.Email.ToLower()
+                                & c.客戶Id==this.客戶Id
+                             select c;
+                    intCount = result.Count();
+                }
+                else
+                {
+                    //修改比對要排除目前編輯的這筆資料
+                    var result = from c in all
+                                 where c.Email.ToLower() == this.Email.ToLower()
+                                    & c.客戶Id == this.客戶Id
+                                    & c.Id != this.Id
+                                 select c;
+                    intCount = result.Count();
+                }
+                if (intCount> 0)
+                {
+                    yield return new ValidationResult("同一客戶的客戶聯絡人Email不可重複",
+                    new string[] { "Email" });
+                }
+            }
+            yield return ValidationResult.Success;
+        }
     }
     
     public partial class 客戶聯絡人MetaData
@@ -27,7 +59,6 @@ namespace MyTest1.Models
         [Required]
         public string 姓名 { get; set; }
 
-        [客戶聯絡人Email不可重複(ErrorMessage = "同一客戶的客戶聯絡人Email不可重複")]
         [RegularExpression(@"^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$", ErrorMessage = "Email格式錯誤")]
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]

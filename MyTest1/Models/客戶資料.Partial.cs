@@ -5,7 +5,6 @@ namespace MyTest1.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using ValidationAttributes;
 
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
