@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MyTest1.Models.客戶摘要資訊>
+
+@{
+    ViewBag.Title = "客戶摘要資訊";
+}
+
+<h2>客戶摘要資訊</h2>
+<div class="well">
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-md-offset-4">
+                @Html.TextBox("txtKeyword", "", new { placeholder = "請輸入關鍵字" })
+                <input type="submit" class="btn btn-primary" value="Search">
+                <span></span>
+                <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+        </div>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.聯絡人數量)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行帳戶數量)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.客戶名稱)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.聯絡人數量)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.銀行帳戶數量)
+        </td>
+    </tr>
+}
+
+</table>
