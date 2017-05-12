@@ -19,7 +19,8 @@ namespace MyTest1.Models
                 if (this.Id == 0)
                 {
                     var result = from c in all
-                             where c.Email.ToLower() == this.Email.ToLower()
+                             where c.是否已刪除 == false 
+                                & c.Email.ToLower() == this.Email.ToLower()
                                 & c.客戶Id==this.客戶Id
                              select c;
                     intCount = result.Count();
@@ -28,7 +29,8 @@ namespace MyTest1.Models
                 {
                     //修改比對要排除目前編輯的這筆資料
                     var result = from c in all
-                                 where c.Email.ToLower() == this.Email.ToLower()
+                                 where c.是否已刪除 == false
+                                    & c.Email.ToLower() == this.Email.ToLower()
                                     & c.客戶Id == this.客戶Id
                                     & c.Id != this.Id
                                  select c;
